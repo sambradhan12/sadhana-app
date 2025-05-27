@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Profile</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+    }
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .message {
+      margin-top: 20px;
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>Edit Profile</h2>
+  <form id="profileForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required />
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required />
+
+    <button type="submit">Save Changes</button>
+  </form>
+  <p class="message" id="msg"></p>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (!user) {
+      alert("No user logged in. Redirecting to login page.");
+      window.location.href = "login.html";
+    } else {
+      // Fill form with saved data
+      document.getElementById("name").value = user.name || "";
+      document.getElementById("email").value = user.email || "";
+    }
+
+    document.getElementById("profileForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      // Get values
+      const updatedName = document.getElementById("name").value.trim();
+      const updatedEmail = document.getElementById("email").value.trim();
+
+      // Update localStorage
+      const updatedUser = { ...user, name: updatedName, email: updatedEmail };
+      localStorage.setItem("loggedInUser", JSON.stringify(updatedUser));
+
+      // Show confirmation message
+      const msg = document.getElementById("msg");
+      msg.textContent = "Profile updated successfully!";
+
+      // Optionally update greeting or dropdown name on other pages if needed
+    });
+  </script>
+</body>
+</html>

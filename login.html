@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Sadhana Auto Parts</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="nav-left">
+        <a href="index.html"><img src="sadhana-auto-parts-img.png" alt="Logo" class="logo" /></a>
+        <a href="about.html">About</a>
+        <a href="products.html">Products</a>
+        <a href="request.html">Request Part</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="nav-right" id="navRight">
+        <!-- Buttons or Profile will be injected here by JavaScript -->
+      </div>
+      
+    </nav>
+  </header>
+
+  <main>
+    <div class="form-container">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <label for="email">Email:</label><br />
+        <input type="email" id="email" name="email" required /><br />
+
+        <label for="password">Password:</label><br />
+        <input type="password" id="password" name="password" required /><br />
+
+        <button type="submit">Login</button>
+      </form>
+      <p id="loginMessage" style="color: red; margin-top: 1em;"></p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Sadhana Auto Parts. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCUbiV0rubS2Or-g7jLzjZrr3Qe0Sogdas",
+      authDomain: "sadhana-app-22444.firebaseapp.com",
+      projectId: "sadhana-app-22444",
+      storageBucket: "sadhana-app-22444.appspot.com",
+      messagingSenderId: "529208491345",
+      appId: "1:529208491345:web:87da3fa06362d9dceb2770"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // Store login state
+          const user = userCredential.user;
+          localStorage.setItem("loggedInUser", JSON.stringify({ email: user.email }));
+          window.location.href = "index.html";
+        })
+        .catch((error) => {
+          document.getElementById("loginMessage").textContent = error.message;
+        });
+    });
+  </script>
+  <script>
+    window.addEventListener("DOMContentLoaded", function () {
+      const navRight = document.querySelector(".nav-right");
+      const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  
+      if (user) {
+        navRight.innerHTML = `
+          <span>Welcome, ${user.name || "User"}!</span>
+          <a href="profile.html" class="btn">Profile</a>
+          <a href="#" class="btn" onclick="logout()">Logout</a>
+        `;
+      } else {
+        navRight.innerHTML = `
+          <a href="login.html" class="btn">Login</a>
+          <a href="register.html" class="btn">Register</a>
+        `;
+      }
+    });
+  
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      location.reload(); // Reload to reflect the change
+    }
+  </script>
+  <script>
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    const navRight = document.getElementById("navRight");
+  
+    if (user) {
+      navRight.innerHTML = `
+        <div class="profile-dropdown">
+          <button id="profileBtn">👤 ${user.name.split(" ")[0]} ▼</button>
+          <div class="dropdown-content" id="profileMenu">
+            <a href="profile.html">My Profile</a>
+            <a href="#" onclick="logout()">Logout</a>
+          </div>
+        </div>
+      `;
+    } else {
+      navRight.innerHTML = `
+        <a href="login.html" class="btn">Login</a>
+        <a href="register.html" class="btn">Register</a>
+      `;
+    }
+  
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      location.reload();
+    }
+  </script>
+  
+</body>
+</html>

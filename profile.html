@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile - Sadhana Auto Parts</title>
+  <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" type="image/png" href="sadhana-auto-parts-img.png" class="top-logo">   
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="nav-left">
+        <a href="index.html"><img src="sadhana-auto-parts-img.png" class="logo" /></a>
+        <a href="about.html">About</a>
+        <a href="products.html">Products</a>
+        <a href="request.html">Request Part</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="nav-right" id="navRight"></div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="profile-container">
+      <h2>My Profile</h2>
+      <div class="profile-field"><label>Name:</label> <span id="userName"></span></div>
+      <div class="profile-field"><label>Phone:</label> <span id="userPhone"></span></div>
+      <div class="profile-field"><label>Email:</label> <span id="userEmail"></span></div>
+
+      <button class="btn" onclick="toggleEdit()">Edit Profile</button>
+
+      <form id="editForm">
+        <div class="profile-field">
+          <label for="editName">Full Name:</label>
+          <input type="text" id="editName" required />
+        </div>
+        <div class="profile-field">
+          <label for="editPhone">Phone:</label>
+          <input type="tel" id="editPhone" required />
+        </div>
+        <div class="profile-field">
+          <label for="editEmail">Email:</label>
+          <input type="email" id="editEmail" />
+        </div>
+        <button type="submit" class="btn">Save Changes</button>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Sadhana Auto Parts. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (!user) {
+      window.location.href = "login.html";
+    } else {
+      document.getElementById("userName").textContent = user.name;
+      document.getElementById("userPhone").textContent = user.phone;
+      document.getElementById("userEmail").textContent = user.email || "N/A";
+
+      document.getElementById("editName").value = user.name;
+      document.getElementById("editPhone").value = user.phone;
+      document.getElementById("editEmail").value = user.email || "";
+    }
+
+    function toggleEdit() {
+      const form = document.getElementById("editForm");
+      form.style.display = form.style.display === "none" ? "block" : "none";
+    }
+
+    document.getElementById("editForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const updatedUser = {
+        name: document.getElementById("editName").value,
+        phone: document.getElementById("editPhone").value,
+        email: document.getElementById("editEmail").value
+      };
+
+      localStorage.setItem("loggedInUser", JSON.stringify(updatedUser));
+      alert("Profile updated!");
+
+      document.getElementById("userName").textContent = updatedUser.name;
+      document.getElementById("userPhone").textContent = updatedUser.phone;
+      document.getElementById("userEmail").textContent = updatedUser.email || "N/A";
+
+      toggleEdit();
+    });
+
+    // Inject nav profile menu
+    const navRight = document.getElementById("navRight");
+    navRight.innerHTML = `
+      <div class="profile-dropdown">
+        <button id="profileBtn">👤 ${user.name.split(" ")[0]} ▼</button>
+        <div class="dropdown-content" id="profileMenu">
+          <a href="profile.html">My Profile</a>
+          <a href="#" onclick="logout()">Logout</a>
+        </div>
+      </div>
+    `;
+
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

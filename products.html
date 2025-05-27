@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Products - Sadhana Auto Parts</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="sadhana-auto-parts-img.png">
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="nav-left">
+        <a href="index.html">
+          <img src="sadhana-auto-parts-img.png" alt="Logo" class="logo">
+        </a>
+        <a href="about.html">About</a>
+        <a href="products.html">Products</a>
+        <a href="request.html">Request Part</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="nav-right" id="navRight">
+        <!-- Buttons or Profile will be injected here by JavaScript -->
+      </div>
+      
+    </nav>
+  </header>
+
+  <main>
+    <h2>Our Products</h2>
+    <div id="productGrid" class="product-grid"></div>
+  </main>
+
+  <!-- Modal -->
+  <div id="productModal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <img id="modalImage" src="" alt="">
+      <h3 id="modalName"></h3>
+      <p><strong>Category:</strong> <span id="modalCategory"></span></p>
+      <p><strong>Compatible Bikes:</strong> <span id="modalBike"></span></p>
+      <p id="modalDescription"></p>
+      
+      <!-- New: Bike Selection Dropdown -->
+      <label for="bikeSelect"><strong>Select Bike Category:</strong></label>
+      <select id="bikeSelect">
+        <option value="">-- Choose a Bike --</option>
+        <option value="Royal Enfield">Royal Enfield</option>
+        <option value="Pulsar">Pulsar</option>
+        <option value="Yamaha">Yamaha</option>
+        <option value="TVS">TVS</option>
+        <option value="Vespa">Vespa</option>
+        <option value="Honda">Honda</option>
+        <option value="Universal">Universal</option>
+        <option value="All">All</option>
+      </select>
+      <p id="bikeInfo" style="margin-top: 10px; font-weight: bold;"></p>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Sadhana Auto Parts. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const products = [
+      {
+        name: "Chain Kit",
+        category: "Chain Kit",
+        bike: "Royal Enfield, Pulsar, Yamaha",
+        description: "Durable and long-lasting chain kit.",
+        image: "images/chain-kit.jpg"
+      },
+      {
+        name: "Helmet",
+        category: "Helmet",
+        bike: "Universal",
+        description: "Strong and stylish helmets.",
+        image: "images/helmet.jpg"
+      },
+      {
+        name: "Piston",
+        category: "Piston",
+        bike: "Yamaha, TVS",
+        description: "High-performance piston.",
+        image: "images/piston.jpg"
+      },
+      {
+        name: "Connecting Rod",
+        category: "Connecting Rod",
+        bike: "Vespa, Pulsar",
+        description: "Reliable connecting rod.",
+        image: "images/connecting-rod.jpg"
+      },
+      {
+        name: "Bearing",
+        category: "Bearing",
+        bike: "Universal",
+        description: "Precision bearing.",
+        image: "images/bearing.jpg"
+      },
+      {
+        name: "Mobil Oil",
+        category: "Engine Oil",
+        bike: "All",
+        description: "Premium engine oil.",
+        image: "images/mobil.jpg"
+      },
+      {
+        name: "Battery",
+        category: "Electrical",
+        bike: "Pulsar, Yamaha",
+        description: "Reliable bike battery.",
+        image: "images/battery.jpg"
+      },
+      {
+        name: "Visor Item",
+        category: "Visor",
+        bike: "Honda, TVS",
+        description: "Clear and strong visor.",
+        image: "images/visor.jpg"
+      },
+      {
+        name: "Wheel Item",
+        category: "Wheels",
+        bike: "Vespa, Pulsar",
+        description: "Durable wheels.",
+        image: "images/wheel.jpg"
+      },
+      {
+        name: "Cable",
+        category: "Cables",
+        bike: "Yamaha, Honda",
+        description: "Strong clutch/brake cables.",
+        image: "images/cable.jpg"
+      }
+    ];
+
+    function createProductCard(product) {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" />
+        <h3>${product.name}</h3>
+      `;
+      card.addEventListener('click', () => {
+        document.getElementById('modalImage').src = product.image;
+        document.getElementById('modalName').textContent = product.name;
+        document.getElementById('modalCategory').textContent = product.category;
+        document.getElementById('modalBike').textContent = product.bike;
+        document.getElementById('modalDescription').textContent = product.description;
+        document.getElementById('productModal').style.display = 'block';
+        document.getElementById('bikeSelect').value = ""; // Reset selection
+        document.getElementById('bikeInfo').textContent = ""; // Reset info
+      });
+      return card;
+    }
+
+    function displayProducts(productsToShow) {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+      productsToShow.forEach(product => {
+        grid.appendChild(createProductCard(product));
+      });
+    }
+
+    displayProducts(products);
+
+    document.getElementById('closeModal').onclick = function () {
+      document.getElementById('productModal').style.display = 'none';
+    };
+
+    window.onclick = function (e) {
+      if (e.target == document.getElementById('productModal')) {
+        document.getElementById('productModal').style.display = 'none';
+      }
+    };
+
+    // New: Show info when bike type is selected
+    const bikeSelect = document.getElementById('bikeSelect');
+    const bikeInfo = document.getElementById('bikeInfo');
+
+    bikeSelect.onchange = function () {
+      const selectedBike = bikeSelect.value;
+      if (selectedBike) {
+        bikeInfo.textContent = `Showing all varieties for: ${selectedBike}`;
+      } else {
+        bikeInfo.textContent = '';
+      }
+    };
+  </script>
+  <script>
+    window.addEventListener("DOMContentLoaded", function () {
+      const navRight = document.querySelector(".nav-right");
+      const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  
+      if (user) {
+        navRight.innerHTML = `
+          <span>Welcome, ${user.name || "User"}!</span>
+          <a href="profile.html" class="btn">Profile</a>
+          <a href="#" class="btn" onclick="logout()">Logout</a>
+        `;
+      } else {
+        navRight.innerHTML = `
+          <a href="login.html" class="btn">Login</a>
+          <a href="register.html" class="btn">Register</a>
+        `;
+      }
+    });
+  
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      location.reload(); // Reload to reflect the change
+    }
+  </script>
+  <script>
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    const navRight = document.getElementById("navRight");
+  
+    if (user) {
+      navRight.innerHTML = `
+        <div class="profile-dropdown">
+          <button id="profileBtn">👤 ${user.name.split(" ")[0]} ▼</button>
+          <div class="dropdown-content" id="profileMenu">
+            <a href="profile.html">My Profile</a>
+            <a href="#" onclick="logout()">Logout</a>
+          </div>
+        </div>
+      `;
+    } else {
+      navRight.innerHTML = `
+        <a href="login.html" class="btn">Login</a>
+        <a href="register.html" class="btn">Register</a>
+      `;
+    }
+  
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      location.reload();
+    }
+  </script>
+  
+</body>
+</html>

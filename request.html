@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Request a Part - Sadhana Auto Parts</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="sadhana-auto-parts-img.png" class="top-logo">
+</head>
+<body>
+    <header>
+      
+        <nav>
+            <div class="nav-left">
+                <a href="index.html">
+                  <img src="sadhana-auto-parts-img.png" alt="sadhana-auto-parts-img" class="logo">
+                </a>
+                <a href="about.html">About</a>
+                <a href="products.html">Products</a>
+                <a href="request.html">Request Part</a>
+                <a href="contact.html">Contact</a>
+              </div>
+              <div class="nav-right" id="navRight">
+                <!-- Buttons or Profile will be injected here by JavaScript -->
+              </div>
+              
+        </nav>
+      </header>
+      
+
+  <main>
+    <h2>Request a Part</h2>
+    <form id="requestForm">
+      <label for="fullName">Full Name:</label><br />
+      <input type="text" id="fullName" name="fullName" required /><br />
+
+      <label for="phone">Phone Number:</label><br />
+      <input type="tel" id="phone" name="phone" required /><br />
+
+      <label for="bikeModel">Bike Model:</label><br />
+      <input type="text" id="bikeModel" name="bikeModel" required /><br />
+
+      <label for="partRequest">Part Name / Message:</label><br />
+      <textarea id="partRequest" name="partRequest" rows="4" required></textarea><br />
+
+      <button type="submit">Submit Request</button>
+    </form>
+
+    <p id="responseMessage" style="margin-top: 1em; color: green;"></p>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Sadhana Auto Parts. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById('requestForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      // For demo, we just show a message. 
+      // In real app, form data would be sent to backend or email service.
+      document.getElementById('responseMessage').textContent =
+        'Thank you for your request! We will contact you shortly.';
+      this.reset();
+    });
+  </script>
+  <img src="sadhana-auto-parts-img.png" alt="Background Logo" class="background-logo">
+  <script>
+    window.addEventListener("DOMContentLoaded", function () {
+      const navRight = document.querySelector(".nav-right");
+      const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  
+      if (user) {
+        navRight.innerHTML = `
+          <span>Welcome, ${user.name || "User"}!</span>
+          <a href="profile.html" class="btn">Profile</a>
+          <a href="#" class="btn" onclick="logout()">Logout</a>
+        `;
+      } else {
+        navRight.innerHTML = `
+          <a href="login.html" class="btn">Login</a>
+          <a href="register.html" class="btn">Register</a>
+        `;
+      }
+    });
+  
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      location.reload(); // Reload to reflect the change
+    }
+  </script>
+  <script>
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    const navRight = document.getElementById("navRight");
+  
+    if (user) {
+      navRight.innerHTML = `
+        <div class="profile-dropdown">
+          <button id="profileBtn">👤 ${user.name.split(" ")[0]} ▼</button>
+          <div class="dropdown-content" id="profileMenu">
+            <a href="profile.html">My Profile</a>
+            <a href="#" onclick="logout()">Logout</a>
+          </div>
+        </div>
+      `;
+    } else {
+      navRight.innerHTML = `
+        <a href="login.html" class="btn">Login</a>
+        <a href="register.html" class="btn">Register</a>
+      `;
+    }
+  
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      location.reload();
+    }
+  </script>
+  
+</body>
+</html>
+<!--         description: "High-quality, long-lasting chain kit for Royal Enfield models.",
+ -->

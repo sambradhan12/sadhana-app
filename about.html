@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us - Sadhana Auto Parts</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="sadhana-auto-parts-img.png" class="top-logo">
+</head>
+<body>
+    <header>
+       
+        <nav>
+            <div class="nav-left">
+                <a href="index.html">
+                  <img src="sadhana-auto-parts-img.png" alt="sadhana-auto-parts-img" class="logo">
+                </a>
+                <a href="about.html">About</a>
+                <a href="products.html">Products</a>
+                <a href="request.html">Request Part</a>
+                <a href="contact.html">Contact</a>
+              </div>
+              <div class="nav-right" id="navRight">
+                <!-- Buttons or Profile will be injected here by JavaScript -->
+              </div>
+              
+        </nav>
+      </header>
+      
+
+  <main>
+    <section class="about-us">
+      <h2>About Sadhana Auto Parts</h2>
+      <p>
+        Established in Nepal, <strong>Sadhana Auto Parts (SAP)</strong> has been the trusted source for quality motorbike parts for over 10 years.  
+        We specialize in parts for popular bikes like Royal Enfield, Pulsar, and more.  
+      </p>
+      <p>
+        Our mission is to provide reliable, affordable, and genuine spare parts to motorbike enthusiasts and workshops across Nepal.  
+        Customer satisfaction and trust are our top priorities.
+      </p>
+      <img src="sadhana-auto-parts-img.png" alt="Sadhana Auto Parts Shop" class="about-image" />
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Sadhana Auto Parts. All rights reserved.</p>
+  </footer>
+  <script>
+    window.addEventListener("DOMContentLoaded", function () {
+      const navRight = document.querySelector(".nav-right");
+      const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  
+      if (user) {
+        navRight.innerHTML = `
+          <span>Welcome, ${user.name || "User"}!</span>
+          <a href="profile.html" class="btn">Profile</a>
+          <a href="#" class="btn" onclick="logout()">Logout</a>
+        `;
+      } else {
+        navRight.innerHTML = `
+          <a href="login.html" class="btn">Login</a>
+          <a href="register.html" class="btn">Register</a>
+        `;
+      }
+    });
+  
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      location.reload(); // Reload to reflect the change
+    }
+  </script>
+  <script>
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    const navRight = document.getElementById("navRight");
+  
+    if (user) {
+      navRight.innerHTML = `
+        <div class="profile-dropdown">
+          <button id="profileBtn">👤 ${user.name.split(" ")[0]} ▼</button>
+          <div class="dropdown-content" id="profileMenu">
+            <a href="profile.html">My Profile</a>
+            <a href="#" onclick="logout()">Logout</a>
+          </div>
+        </div>
+      `;
+    } else {
+      navRight.innerHTML = `
+        <a href="login.html" class="btn">Login</a>
+        <a href="register.html" class="btn">Register</a>
+      `;
+    }
+  
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      location.reload();
+    }
+  </script>
+  
+</body>
+</html>
