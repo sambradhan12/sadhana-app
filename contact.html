@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact - Sadhana Auto Parts</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="sadhana-auto-parts-img.png" class="top-logo">
+</head>
+<body>
+  <header>
+   
+    <nav>
+        <div class="nav-left">
+            <a href="index.html">
+              <img src="sadhana-auto-parts-img.png" alt="sadhana-auto-parts-img" class="logo">
+            </a>
+            <a href="about.html">About</a>
+            <a href="products.html">Products</a>
+            <a href="request.html">Request Part</a>
+            <a href="contact.html">Contact</a>
+          </div>
+          
+          <div class="nav-right" id="navRight">
+            <!-- Buttons or Profile will be injected here by JavaScript -->
+          </div>
+          
+    </nav>
+  </header>
+
+  <main>
+    <h2>Contact Us</h2>
+    <p><strong>Phone:</strong> <a href="tel:+9779845089061">+977 9845089061</a></p>
+    <p><strong>Address:</strong> New road, chitwan, Nepal</p>
+    <p><strong>Business Hours:</strong> 9:00 AM – 7:00 PM (Mon-Sat)</p>
+
+    <h3>Location Map</h3>
+    <iframe
+      src="https://www.google.com/maps/place/Bartaula+Hardware+%26+Sanitary/@27.6124089,84.56997,169m/data=!3m1!1e3!4m6!3m5!1s0x3994e91de9adac71:0xd04e016d473ad26f!8m2!3d27.6123212!4d84.5712508!16s%2Fg%2F11ny3xgjj8?entry=ttu&g_ep=EgoyMDI1MDYwOS4wIKXMDSoASAFQAw%3D%3D"
+      width="50%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+
+    <h3>WhatsApp</h3>
+    <p><a href="https://wa.me/9779845089061" target="_blank" rel="noopener noreferrer">Chat with us on WhatsApp</a></p>
+  </main>
+  <img src="s.png" class="domen"/>
+  <footer>
+    <p>&copy; 2025 Sadhana Auto Parts. All rights reserved.</p>
+  </footer>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", function () {
+      const navRight = document.querySelector(".nav-right");
+      const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  
+      if (user) {
+        navRight.innerHTML = `
+          <span>Welcome, ${user.name || "User"}!</span>
+          <a href="profile.html" class="btn">Profile</a>
+          <a href="#" class="btn" onclick="logout()">Logout</a>
+        `;
+      } else {
+        navRight.innerHTML = `
+          <a href="login.html" class="btn">Login</a>
+          <a href="register.html" class="btn">Register</a>
+        `;
+      }
+    });
+  
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      location.reload(); // Reload to reflect the change
+    }
+  </script>
+  <script>
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    const navRight = document.getElementById("navRight");
+  
+    if (user) {
+      navRight.innerHTML = `
+        <div class="profile-dropdown">
+          <button id="profileBtn">👤 ${user.name.split(" ")[0]} ▼</button>
+          <div class="dropdown-content" id="profileMenu">
+            <a href="profile.html">My Profile</a>
+            <a href="#" onclick="logout()">Logout</a>
+          </div>
+        </div>
+      `;
+    } else {
+      navRight.innerHTML = `
+        <a href="login.html" class="btn">Login</a>
+        <a href="register.html" class="btn">Register</a>
+      `;
+    }
+  
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      location.reload();
+    }
+  </script>
+  
+</body>
+</html>
