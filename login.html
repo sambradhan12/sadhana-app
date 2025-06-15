@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register - Sadhana Auto Parts</title>
+  <title>Login - Sadhana Auto Parts</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Firebase SDKs -->
@@ -137,7 +137,7 @@
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       transform-style: preserve-3d;
-      perspective: 100px;
+      perspective: 1000px;
       transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     
@@ -506,7 +506,7 @@
         <a href="contact.html">Contact</a>
       </div>
       <div class="nav-right" id="navRight">
-        <a href="login.html" class="btn">Login</a>
+        <a href="register.html" class="btn">Registration</a>
       </div>
     </nav>
   </header>
@@ -517,18 +517,8 @@
   <!-- Main Content -->
   <div class="main-container">
     <div class="form-container">
-      <h2 id="form-title"><i class="fas fa-user-plus"></i> Create Account</h2>
-      <form id="registerForm">
-        <div class="input-box">
-          <input type="text" id="fullName" required placeholder="Full Name" />
-          <i class="fas fa-user"></i>
-        </div>
-        
-        <div class="input-box">
-          <input type="tel" id="phone" required placeholder="Phone Number" />
-          <i class="fas fa-phone"></i>
-        </div>
-        
+      <h2 id="form-title"><i class="fas fa-sign-in-alt"></i> Login</h2>
+      <form id="loginForm">
         <div class="input-box">
           <input type="email" id="email" required placeholder="Email" />
           <i class="fas fa-envelope"></i>
@@ -540,29 +530,22 @@
           <span class="password-toggle" id="togglePassword">
             <i class="far fa-eye"></i>
           </span>
-          <div class="strength-meter">
-            <div class="strength-meter-fill" id="strengthMeter"></div>
-          </div>
-          
         </div>
         
-        <div class="input-box">
-          <input type="password" id="confirmPassword" required placeholder="Confirm Password" />
-          <i class="fas fa-lock"></i>
-        </div>
-        <div class="password-requirements" id="passwordRequirements">
-          <div class="requirement" id="reqLength"><i class="far fa-circle"></i> At least 8 characters</div>
-          <div class="requirement" id="reqUpper"><i class="far fa-circle"></i> Contains uppercase letter</div>
-          <div class="requirement" id="reqNumber"><i class="far fa-circle"></i> Contains number</div>
-          <div class="requirement" id="reqSpecial"><i class="far fa-circle"></i> Contains special character</div>
+        <div class="remember-forgot">
+          <div class="remember-me">
+            <input type="checkbox" id="rememberMe">
+            <label for="rememberMe">Remember me</label>
+          </div>
+          <a href="forgot-password.html" class="forgot-password">Forgot password?</a>
         </div>
         
         <div class="submit-box">
-          <button type="submit"><i class="fas fa-user-plus"></i> Register</button>
+          <button type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
         </div>
         
-        <p id="registerMessage"></p>
-        <p>Already have an account? <a href="login.html">Login here</a></p>
+        <p id="loginMessage"></p>
+        <p>Don't have an account? <a href="register.html">Register here</a></p>
       </form>
     </div>
   </div>
@@ -611,115 +594,48 @@
       }
     });
 
-    // Password strength checker
-    document.getElementById('password').addEventListener('input', function() {
-      const password = this.value;
-      const meter = document.getElementById('strengthMeter');
-      const requirements = {
-        length: password.length >= 8,
-        upper: /[A-Z]/.test(password),
-        number: /[0-9]/.test(password),
-        special: /[^A-Za-z0-9]/.test(password)
-      };
-      
-      // Update strength meter
-      const strength = Object.values(requirements).filter(Boolean).length;
-      const width = (strength / 4) * 100;
-      meter.style.width = `${width}%`;
-      
-      // Update meter color based on strength
-      if (strength <= 1) {
-        meter.style.background = '#FF3E00'; // Weak (red)
-      } else if (strength <= 3) {
-        meter.style.background = '#FFA500'; // Medium (orange)
-      } else {
-        meter.style.background = '#00D1FF'; // Strong (blue)
-      }
-      
-      // Update requirement indicators
-      document.getElementById('reqLength').classList.toggle('valid', requirements.length);
-      document.getElementById('reqUpper').classList.toggle('valid', requirements.upper);
-      document.getElementById('reqNumber').classList.toggle('valid', requirements.number);
-      document.getElementById('reqSpecial').classList.toggle('valid', requirements.special);
-      
-      // Update icons
-      document.querySelector('#reqLength i').className = requirements.length ? 'fas fa-check-circle' : 'far fa-circle';
-      document.querySelector('#reqUpper i').className = requirements.upper ? 'fas fa-check-circle' : 'far fa-circle';
-      document.querySelector('#reqNumber i').className = requirements.number ? 'fas fa-check-circle' : 'far fa-circle';
-      document.querySelector('#reqSpecial i').className = requirements.special ? 'fas fa-check-circle' : 'far fa-circle';
-    });
-
     // Form submission
-    document.getElementById("registerForm").addEventListener("submit", function(e) {
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
       e.preventDefault();
 
-      const name = document.getElementById("fullName").value.trim();
-      const phone = document.getElementById("phone").value.trim();
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
-      const confirmPassword = document.getElementById("confirmPassword").value;
+      const rememberMe = document.getElementById("rememberMe").checked;
       
-      // Validate passwords match
-      if (password !== confirmPassword) {
-        document.getElementById("registerMessage").textContent = "Passwords don't match!";
-        document.getElementById("registerMessage").style.color = "var(--primary)";
-        return;
-      }
-      
-      // Check password strength
-      const requirements = {
-        length: password.length >= 8,
-        upper: /[A-Z]/.test(password),
-        number: /[0-9]/.test(password),
-        special: /[^A-Za-z0-9]/.test(password)
-      };
-      
-      const strength = Object.values(requirements).filter(Boolean).length;
-      if (strength < 3) {
-        document.getElementById("registerMessage").textContent = "Password is too weak!";
-        document.getElementById("registerMessage").style.color = "var(--primary)";
-        return;
-      }
+      // Set persistence based on "Remember me" checkbox
+      const persistence = rememberMe ? 
+        firebase.auth.Auth.Persistence.LOCAL : 
+        firebase.auth.Auth.Persistence.SESSION;
 
-      // Create user with Firebase
-      auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          
-          // Save additional user data to database
-          return database.ref("users/" + user.uid).set({
-            name: name,
-            phone: phone,
-            email: email,
-            createdAt: firebase.database.ServerValue.TIMESTAMP
-          });
-        })
+      auth.setPersistence(persistence)
         .then(() => {
+          return auth.signInWithEmailAndPassword(email, password);
+        })
+        .then((userCredential) => {
           // Success message
-          document.getElementById("registerMessage").textContent = "Registration successful! Redirecting to login...";
-          document.getElementById("registerMessage").style.color = "var(--accent)";
-          document.getElementById("registerForm").reset();
+          document.getElementById("loginMessage").textContent = "Login successful! Redirecting...";
+          document.getElementById("loginMessage").style.color = "var(--accent)";
           
-          // Redirect to login after 2 seconds
+          // Redirect to dashboard after 1 second
           setTimeout(() => {
-            window.location.href = "login.html";
-          }, 2000);
+            window.location.href = "dashboard.html";
+          }, 1000);
         })
         .catch((error) => {
           // Error handling
           let errorMessage = error.message;
           
           // More user-friendly error messages
-          if (error.code === "auth/email-already-in-use") {
-            errorMessage = "This email is already registered. Please login instead.";
+          if (error.code === "auth/user-not-found") {
+            errorMessage = "No account found with this email.";
+          } else if (error.code === "auth/wrong-password") {
+            errorMessage = "Incorrect password. Please try again.";
           } else if (error.code === "auth/invalid-email") {
             errorMessage = "Please enter a valid email address.";
-          } else if (error.code === "auth/weak-password") {
-            errorMessage = "Password should be at least 6 characters.";
           }
           
-          document.getElementById("registerMessage").textContent = errorMessage;
-          document.getElementById("registerMessage").style.color = "var(--primary)";
+          document.getElementById("loginMessage").textContent = errorMessage;
+          document.getElementById("loginMessage").style.color = "var(--primary)";
         });
     });
 
